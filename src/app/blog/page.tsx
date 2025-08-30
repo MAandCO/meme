@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { posts } from "@/content/posts";
+import { posts, getCategories, slugifyCategory } from "@/content/posts";
 
 export const metadata: Metadata = {
   title: "Blog | Ma & Co Accountants",
@@ -22,6 +22,7 @@ const jsonLdBlog = {
 
 export default function BlogIndex() {
   const sorted = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
+  const categories = getCategories();
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBlog) }} />
@@ -31,6 +32,15 @@ export default function BlogIndex() {
         <p className="mt-4 max-w-2xl text-lg text-slate-600">
           Practical guidance on UK tax, compliance automation, and finance strategy.
         </p>
+        {categories.length > 0 && (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {categories.map((c) => (
+              <a key={c} href={`/blog/category/${slugifyCategory(c)}`} className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50">
+                {c}
+              </a>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="container-base mt-4 grid grid-cols-1 gap-5 md:grid-cols-3">
@@ -56,4 +66,3 @@ export default function BlogIndex() {
     </>
   );
 }
-

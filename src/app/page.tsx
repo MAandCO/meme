@@ -14,6 +14,17 @@ export default function Page({ searchParams }: { searchParams?: { [key: string]:
       )
     },
     {
+      title: "Insights & Blog",
+      desc: "Tax updates, AI in finance, property strategies.",
+      href: "/blog",
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <path d="M4 5h16v14H4z" stroke="currentColor" strokeWidth="2" />
+          <path d="M8 9h8M8 13h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      )
+    },
+    {
       title: "AI-Driven Bookkeeping Automation",
       desc: "FreeAgent, Xero, QuickBooks integrations to reduce admin and errors.",
       icon: (
@@ -196,15 +207,22 @@ export default function Page({ searchParams }: { searchParams?: { [key: string]:
           Practical expertise across tax, automation, payroll, property, and strategic finance.
         </p>
         <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s) => (
-            <div key={s.title} className="card p-6">
-              <div className="flex items-center gap-3 text-sky-600">
-                {s.icon}
-                <h3 className="text-lg font-semibold text-slate-900">{s.title}</h3>
+          {services.map((s) => {
+            const Card = (
+              <div className="card group p-6">
+                <div className="flex items-center gap-3 text-sky-600">
+                  {s.icon}
+                  <h3 className="text-lg font-semibold text-slate-900 group-hover:underline">{s.title}</h3>
+                </div>
+                <p className="mt-3 text-slate-600">{s.desc}</p>
               </div>
-              <p className="mt-3 text-slate-600">{s.desc}</p>
-            </div>
-          ))}
+            );
+            return s.hasOwnProperty("href") ? (
+              <a key={s.title} href={(s as any).href} className="block">{Card}</a>
+            ) : (
+              <div key={s.title}>{Card}</div>
+            );
+          })}
         </div>
       </section>
 
