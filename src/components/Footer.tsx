@@ -18,7 +18,7 @@ export default function Footer() {
             <h3 className="font-semibold text-slate-900">Navigation</h3>
             <ul className="mt-3 space-y-2 text-slate-600">
               <li><a href="/services" className="hover:text-slate-900">Services</a></li>
-              <li><a href="#blog" className="hover:text-slate-900">Blog</a></li>
+              <li><a href="/blog" className="hover:text-slate-900">Blog</a></li>
               <li><a href="#about" className="hover:text-slate-900">About</a></li>
               <li><a href="#contact" className="hover:text-slate-900">Contact</a></li>
               <li><a href="#privacy" className="hover:text-slate-900">Privacy Policy</a></li>

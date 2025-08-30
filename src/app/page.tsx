@@ -73,9 +73,9 @@ export default function Page({ searchParams }: { searchParams?: { [key: string]:
   ];
 
   const posts = [
-    { title: "Latest HMRC tax updates for SMEs", tag: "Tax Updates", href: "#", date: "2025-08-01" },
-    { title: "Using AI to automate bookkeeping the right way", tag: "AI in Finance", href: "#", date: "2025-07-15" },
-    { title: "Property tax strategies for UK landlords", tag: "Property Tax", href: "#", date: "2025-07-01" }
+    { title: "Latest HMRC tax updates for SMEs", tag: "Tax Updates", href: "/blog/hmrc-tax-updates-smes-2025", date: "2025-08-01" },
+    { title: "Using AI to automate bookkeeping the right way", tag: "AI in Finance", href: "/blog/ai-bookkeeping-automation-best-practices", date: "2025-07-15" },
+    { title: "Property tax strategies for UK landlords", tag: "Property Tax", href: "/blog/property-tax-strategies-uk-landlords", date: "2025-07-01" }
   ];
 
   const jsonLdLocalBusiness = {

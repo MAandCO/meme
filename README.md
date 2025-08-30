@@ -8,6 +8,7 @@ A modern, professional, SEO-optimized landing page for a UK accountancy firm spe
 - About section (digital-first, rigorous honesty, sparring-partner mindset)
 - Testimonials (cards)
 - SEO/Blog preview
+- Full Blog: listing + post pages with SEO metadata and JSON-LD
 - FAQ + JSON-LD schema (LocalBusiness + FAQPage)
 - Contact form (client-side handler)
 - Sticky nav + footer, mobile-first responsive
@@ -42,6 +43,9 @@ A modern, professional, SEO-optimized landing page for a UK accountancy firm spe
 ## Project Structure
 - src/app/layout.tsx – Global layout + metadata
 - src/app/page.tsx – Landing page content and schema
+- src/app/blog/page.tsx – Blog index
+- src/app/blog/[slug]/page.tsx – Blog post page (static params)
+- src/content/posts.ts – Blog post content (typed JSON)
 - src/components/NavBar.tsx – Sticky nav with anchors
 - src/components/Chatbot.tsx – Floating chat widget (placeholder)
 - src/components/Footer.tsx – Footer w/ links & socials
@@ -52,5 +56,6 @@ A modern, professional, SEO-optimized landing page for a UK accountancy firm spe
 - Images use simple SVG/gradients to avoid external config. Replace with your assets when ready.
 - `next.config.js` sets `images.unoptimized = true` for portability; adjust if you use Next/Image with remote hosts.
 - Team photos use `source.unsplash.com` placeholders. To use your real photos, add them under `public/images/` and update `TeamGallery.tsx` sources.
- - Included sample team photos in `public/images/` from Unsplash (free to use). Attribution appreciated but not required under the Unsplash License.
+- Included sample team photos in `public/images/` from Unsplash (free to use). Attribution appreciated but not required under the Unsplash License.
+- Blog uses Tailwind Typography for pleasant reading. Adjust via prose classes in `[slug]/page.tsx`.
 - If you don’t configure SMTP, the API uses Nodemailer’s `jsonTransport` so submissions succeed and are logged without sending.

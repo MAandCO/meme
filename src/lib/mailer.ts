@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import nodemailer, { Transporter } from "nodemailer";
 
 export type MailEnv = {
   SMTP_HOST?: string;
@@ -15,16 +15,18 @@ function asBool(v: string | undefined, fallback = false) {
   return /^(1|true|yes)$/i.test(v);
 }
 
-export function isSmtpConfigured(env: MailEnv = process.env): boolean {
-  return Boolean(env.SMTP_HOST);
+export function isSmtpConfigured(env?: MailEnv): boolean {
+  const e = (env ?? (process.env as unknown as MailEnv));
+  return Boolean(e.SMTP_HOST);
 }
 
-export function createTransporter(env: MailEnv = process.env) {
-  const host = env.SMTP_HOST || "";
-  const port = parseInt(env.SMTP_PORT || "0", 10) || 587;
-  const secure = asBool(env.SMTP_SECURE, port === 465);
-  const user = env.SMTP_USER || "";
-  const pass = env.SMTP_PASS || "";
+export function createTransporter(env?: MailEnv): Transporter {
+  const e = (env ?? (process.env as unknown as MailEnv));
+  const host = e.SMTP_HOST || "";
+  const port = parseInt(e.SMTP_PORT || "0", 10) || 587;
+  const secure = asBool(e.SMTP_SECURE, port === 465);
+  const user = e.SMTP_USER || "";
+  const pass = e.SMTP_PASS || "";
 
   if (!host) {
     return nodemailer.createTransport({ jsonTransport: true });
@@ -38,9 +40,9 @@ export function createTransporter(env: MailEnv = process.env) {
   });
 }
 
-export function getMailFromTo(env: MailEnv = process.env) {
-  const mailFrom = env.MAIL_FROM || "Ma & Co Website <no-reply@maandcoaccountants.com>";
-  const mailTo = env.MAIL_TO || "info@maandcoaccountants.com";
+export function getMailFromTo(env?: MailEnv) {
+  const e = (env ?? (process.env as unknown as MailEnv));
+  const mailFrom = e.MAIL_FROM || "Ma & Co Website <no-reply@maandcoaccountants.com>";
+  const mailTo = e.MAIL_TO || "info@maandcoaccountants.com";
   return { mailFrom, mailTo };
 }
-
