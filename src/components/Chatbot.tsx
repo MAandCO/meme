@@ -9,6 +9,7 @@ export default function Chatbot() {
     { id: "m1", role: "assistant", content: "Hi! I’m your Ma & Co AI assistant. Ask me about tax, compliance, or bookkeeping." }
   ]);
   const [input, setInput] = React.useState("");
+  const [sending, setSending] = React.useState(false);
 
   const toggle = () => setOpen((v) => !v);
 
@@ -16,12 +17,31 @@ export default function Chatbot() {
     e.preventDefault();
     const text = input.trim();
     if (!text) return;
-    setMessages((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), role: "user", content: text },
-      { id: crypto.randomUUID(), role: "assistant", content: "Thanks! This is a placeholder. We’ll connect this to our AI advisor soon." }
-    ]);
+    const userMsg: Message = { id: crypto.randomUUID(), role: "user", content: text };
+    setMessages((prev) => [...prev, userMsg]);
     setInput("");
+    void callApi([...messages, userMsg]);
+  }
+
+  async function callApi(msgs: Message[]) {
+    try {
+      setSending(true);
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: msgs.map(({ role, content }) => ({ role, content })) })
+      });
+      const data = await res.json();
+      const reply = data.reply || data.error || "Sorry, I couldn’t respond just now.";
+      setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "assistant", content: reply }]);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        { id: crypto.randomUUID(), role: "assistant", content: "There was a problem connecting to the assistant. Please email info@maandcoaccountants.com." }
+      ]);
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -53,8 +73,8 @@ export default function Chatbot() {
               placeholder="Ask about tax, VAT, payroll…"
               className="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm focus-ring"
             />
-            <button type="submit" className="rounded-xl bg-sky-600 px-3 py-2 text-sm text-white hover:bg-sky-700 focus-ring">
-              Send
+            <button type="submit" disabled={sending} className="rounded-xl bg-sky-600 px-3 py-2 text-sm text-white hover:bg-sky-700 focus-ring disabled:opacity-60">
+              {sending ? "Sending…" : "Send"}
             </button>
           </form>
         </div>
@@ -71,4 +91,3 @@ export default function Chatbot() {
     </div>
   );
 }
-
